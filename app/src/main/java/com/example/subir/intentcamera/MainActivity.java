@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Intent i;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static int RESULT_LOAD_IMAGE = 1;
+    static final int REQUEST_IMAGE_SELECT = 2;
 
 
     @Override
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("aspectX", 1);
                 intent.putExtra("aspectY", 1);
                 intent.putExtra("return-data", true);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, REQUEST_IMAGE_SELECT);
                 break;
         }
 
@@ -74,14 +76,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             iv1.setImageBitmap(imageBitmap);
         }
+        else if (requestCode == REQUEST_IMAGE_SELECT && resultCode == RESULT_OK && null != data) {
+            Log.i("","hello");
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-        if (requestCode == 1) {
-            final Bundle extras = data.getExtras();
-            if (extras != null) {
-                //Get image
-                Bitmap ProfilePic = extras.getParcelable("data");
-                iv1.setImageBitmap(ProfilePic);
-            }
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            ImageView imageView = findViewById(R.id.imageView);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+
         }
     }
 }
