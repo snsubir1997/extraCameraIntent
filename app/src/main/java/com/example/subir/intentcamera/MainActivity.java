@@ -1,6 +1,5 @@
 package com.example.subir.intentcamera;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,12 +9,14 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -93,5 +94,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu m)
+    {
+        MenuInflater mf = getMenuInflater();
+        mf.inflate(R.menu.menu,m);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem m)
+    {
+        switch (m.getItemId())
+        {
+            case R.id.red:
+                Toast.makeText(getApplicationContext(),"I am red",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.blue:
+                Toast.makeText(getApplicationContext(),"I am blue",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.green:
+                Toast.makeText(getApplicationContext(),"I am green",Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }

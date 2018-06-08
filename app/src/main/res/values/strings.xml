@@ -3,4 +3,7 @@
     <string name="gallery">Gallery</string>
     <string name="open_camera">Open Camera</string>
     <string name="imageselected">ImageSelected</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
 </resources>
